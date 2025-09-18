@@ -5,7 +5,8 @@ using Random = UnityEngine.Random;
 
 public class Spawner : MonoBehaviour
 {
-    public event Action<Cube, List<Rigidbody> > NewCubesSpawned;
+    public event Action<Cube, List<Rigidbody>> NewCubesSpawned;
+    public event Action<Cube> CubeDestroyed;
 
     [SerializeField] private Cube _cubePrefab;
     [SerializeField] private int _minCubesToSpawn = 2;
