@@ -3,26 +3,31 @@ using UnityEngine;
 
 public class Cube : MonoBehaviour
 {
-    public float SplitChance = 100f;
-    public Spawner spawner;
-    public Renderer renderer;
-    public Rigidbody rigidbody;
-
-    public event Action<Cube> OnCubeClicked;
+    private float _splitChance = 100f;
+    public Spawner _spawner;
+    private Renderer _renderer;
+    private Rigidbody _rigidbody;
 
     private void Awake()
     {
-        renderer = GetComponent<Renderer>();
-        rigidbody = GetComponent<Rigidbody>();
-    }
-
-    private void OnMouseDown()
-    {
-        OnCubeClicked?.Invoke(this);
+        _renderer = GetComponent<Renderer>();
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
     public void InitializeSplitChance(float chance)
     {
-        SplitChance = chance;
+        _splitChance = chance;
+    }
+
+    public Spawner Spawner
+    {
+        get => _spawner;
+        set => _spawner = value;
+    }
+
+    public float SplitChance
+    {
+        get => _splitChance;
+        set => _splitChance = value;
     }
 }

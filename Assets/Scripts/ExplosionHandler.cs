@@ -8,11 +8,11 @@ public class ExplosionHandler : MonoBehaviour
 
     public void Explode(Vector3 position, List<Rigidbody> rigidbodies)
     {
-        foreach (Rigidbody rb in rigidbodies)
+        foreach (Rigidbody rigidbodie in rigidbodies)
         {
-            if (rb != null)
+            if (rigidbodie != null)
             {
-                rb.AddExplosionForce(_explosionForce, position, _radius);
+                rigidbodie.AddExplosionForce(_explosionForce, position, _radius);
             }
         }
     }

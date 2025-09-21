@@ -5,6 +5,8 @@ public class GameController : MonoBehaviour
 {
     [SerializeField] private Spawner _spawner;
     [SerializeField] private ExplosionHandler _explosionHandler;
+    [SerializeField] private Raycaster _raycaster;
+    [SerializeField] private InputHandler _inputHandler;
 
     private int _reducingChanceDivision = 2;
     private int _minChanceDivision = 0;
@@ -12,9 +14,13 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        Raycaster raycaster = FindObjectOfType<Raycaster>();
-        if (raycaster != null)
-            raycaster.CubeHit += HandleCubeHit;
+        _inputHandler.OnMouseClicked += HandleMouseClick;
+        _raycaster.CubeHit += HandleCubeHit;
+    }
+
+    private void HandleMouseClick()
+    {
+        _raycaster.PerformRaycast();
     }
 
     private void HandleCubeHit(Cube cube)
@@ -24,6 +30,6 @@ public class GameController : MonoBehaviour
             List<Rigidbody> spawnedCubes = _spawner.CreateNewCubes(cube, cube.SplitChance / _reducingChanceDivision);
             _explosionHandler.Explode(cube.transform.position, spawnedCubes);
         }
-            Destroy(cube.gameObject);
+        Destroy(cube.gameObject);
     }
 }

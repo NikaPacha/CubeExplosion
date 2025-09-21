@@ -3,24 +3,20 @@ using UnityEngine;
 
 public class Raycaster : MonoBehaviour
 {
-    public LayerMask cubeLayer;
-    private int _mouseButton = 0;
+    [SerializeField] private LayerMask _cubeLayer;
 
     public event Action<Cube> CubeHit;
 
-    private void Update()
+    public void PerformRaycast()
     {
-        if (Input.GetMouseButtonDown(_mouseButton))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, cubeLayer))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, _cubeLayer))
+        {
+            if (hit.transform.TryGetComponent(out Cube cube))
             {
-                if (hit.transform.TryGetComponent(out Cube cube))
-                {
-                    CubeHit?.Invoke(cube);
-                }
+                CubeHit?.Invoke(cube);
             }
         }
     }
