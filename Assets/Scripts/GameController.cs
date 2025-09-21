@@ -1,14 +1,17 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
     [SerializeField] private Spawner _spawner;
     [SerializeField] private ExplosionHandler _explosionHandler;
+
     private int _reducingChanceDivision = 2;
+    private int _minChanceDivision = 0;
+    private int _maxChanceDivision = 100;
 
     private void Start()
     {
-        // Подписываемся на событие от Raycaster
         Raycaster raycaster = FindObjectOfType<Raycaster>();
         if (raycaster != null)
             raycaster.CubeHit += HandleCubeHit;
@@ -16,16 +19,10 @@ public class GameController : MonoBehaviour
 
     private void HandleCubeHit(Cube cube)
     {
-        // Проверяем вероятность деления
-        if (Random.Range(0f, 100f) <= cube.SplitChance)
+        if (Random.Range(_minChanceDivision, _maxChanceDivision) <= cube.SplitChance)
         {
-            // Создаем новые кубы
-            _spawner.CreateNewCubes(cube, cube.SplitChance / _reducingChanceDivision);
-
-            // Запускаем взрыв
-            _explosionHandler.Explode(cube.transform.position);
-
-            Destroy(cube.gameObject);
+            List<Rigidbody> spawnedCubes = _spawner.CreateNewCubes(cube, cube.SplitChance / _reducingChanceDivision);
+            _explosionHandler.Explode(cube.transform.position, spawnedCubes);
         }
             Destroy(cube.gameObject);
     }

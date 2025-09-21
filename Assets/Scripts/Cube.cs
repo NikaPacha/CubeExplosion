@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class Cube : MonoBehaviour
 {
-    public event Action<Cube> OnCubeClicked;
-
     public float SplitChance = 100f;
     public Spawner spawner;
     public Renderer renderer;
     public Rigidbody rigidbody;
+
+    public event Action<Cube> OnCubeClicked;
 
     private void Awake()
     {

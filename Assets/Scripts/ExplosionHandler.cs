@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ExplosionHandler : MonoBehaviour
@@ -5,13 +6,10 @@ public class ExplosionHandler : MonoBehaviour
     [SerializeField] private float _explosionForce = 100f;
     [SerializeField] private float _radius = 5f;
 
-    public void Explode(Vector3 position)
+    public void Explode(Vector3 position, List<Rigidbody> rigidbodies)
     {
-        Collider[] hitColliders = Physics.OverlapSphere(position, _radius);
-
-        foreach (Collider collider in hitColliders)
+        foreach (Rigidbody rb in rigidbodies)
         {
-            Rigidbody rb = collider.GetComponent<Rigidbody>();
             if (rb != null)
             {
                 rb.AddExplosionForce(_explosionForce, position, _radius);

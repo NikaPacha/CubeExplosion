@@ -1,33 +1,20 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Spawner : MonoBehaviour
 {
-    public event Action<Cube, List<Rigidbody>> NewCubesSpawned;
-    public event Action<Cube> CubeDestroyed;
-
     [SerializeField] private Cube _cubePrefab;
     [SerializeField] private int _minCubesToSpawn = 2;
     [SerializeField] private int _maxCubesToSpawn = 6;
     [SerializeField] private float _differenceScaleCubes = 2;
 
-    private void Start()
+    public List<Rigidbody> CreateNewCubes(Cube cube, float splitChance)
     {
-        if (_cubePrefab == null)
-        {
-            Debug.LogError("Префаб не установлен!");
-            return;
-        }
-    }
-
-    public void CreateNewCubes(Cube cube, float splitChance)
-    {
-        int numberCubes = Random.Range(_minCubesToSpawn, _maxCubesToSpawn);
         List<Rigidbody> cubes = new List<Rigidbody>();
+        int numberCubes = Random.Range(_minCubesToSpawn, _maxCubesToSpawn);
 
-        for (int i = 1; i <= numberCubes; i++)
+        for (int i = 0; i <= numberCubes; i++)
         {
             Cube newCube = Instantiate(_cubePrefab, cube.transform.position, Quaternion.identity);
             newCube.InitializeSplitChance(splitChance);
@@ -39,7 +26,6 @@ public class Spawner : MonoBehaviour
                 cubes.Add(cubeRigidbody);
             }
         }
-
-        NewCubesSpawned?.Invoke(cube, cubes);
+        return cubes;
     }
 }
