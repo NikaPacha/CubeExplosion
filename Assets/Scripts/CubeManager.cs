@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class GameController : MonoBehaviour
+public class CubeManager : MonoBehaviour
 {
     [SerializeField] private Spawner _spawner;
     [SerializeField] private ExplosionHandler _explosionHandler;
@@ -12,10 +14,35 @@ public class GameController : MonoBehaviour
     private int _minChanceDivision = 0;
     private int _maxChanceDivision = 100;
 
+    public Spawner Spawner
+    {
+        get => _spawner;
+        set => _spawner = value;
+    }
+
+    public event Action OnGameStarted;
+
+    private void OnEnable()
+    {
+        if (_inputHandler != null)
+            _inputHandler.OnMouseClicked += HandleMouseClick;
+
+        if (_raycaster != null)
+            _raycaster.CubeHit += HandleCubeHit;
+    }
+
+    private void OnDisable()
+    {
+        if (_inputHandler != null)
+            _inputHandler.OnMouseClicked -= HandleMouseClick;
+
+        if (_raycaster != null)
+            _raycaster.CubeHit -= HandleCubeHit;
+    }
+
     private void Start()
     {
-        _inputHandler.OnMouseClicked += HandleMouseClick;
-        _raycaster.CubeHit += HandleCubeHit;
+        OnGameStarted?.Invoke();
     }
 
     private void HandleMouseClick()

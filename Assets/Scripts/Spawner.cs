@@ -19,7 +19,6 @@ public class Spawner : MonoBehaviour
             Cube newCube = Instantiate(_cubePrefab, cube.transform.position, Quaternion.identity);
             newCube.InitializeSplitChance(splitChance);
             newCube.transform.localScale = cube.transform.localScale / _differenceScaleCubes;
-            newCube._spawner = this;
 
             if (newCube.TryGetComponent(out Rigidbody cubeRigidbody))
             {

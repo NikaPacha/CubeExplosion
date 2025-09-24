@@ -1,12 +1,20 @@
 using System;
 using UnityEngine;
 
+[RequireComponent(typeof(Renderer))]
+[RequireComponent(typeof(Rigidbody))]
+
 public class Cube : MonoBehaviour
 {
     private float _splitChance = 100f;
-    public Spawner _spawner;
     private Renderer _renderer;
     private Rigidbody _rigidbody;
+
+    public float SplitChance
+    {
+        get => _splitChance;
+        set => _splitChance = value;
+    }
 
     private void Awake()
     {
@@ -17,17 +25,5 @@ public class Cube : MonoBehaviour
     public void InitializeSplitChance(float chance)
     {
         _splitChance = chance;
-    }
-
-    public Spawner Spawner
-    {
-        get => _spawner;
-        set => _spawner = value;
-    }
-
-    public float SplitChance
-    {
-        get => _splitChance;
-        set => _splitChance = value;
     }
 }
