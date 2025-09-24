@@ -153,6 +153,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _explosionForce: 100
   _radius: 5
+  _baseExplosionForce: 10
+  _baseExplosionRadiusMultiplier: 2
 --- !u!4 &4034228
 Transform:
   m_ObjectHideFlags: 0

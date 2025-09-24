@@ -52,11 +52,21 @@ public class CubeManager : MonoBehaviour
 
     private void HandleCubeHit(Cube cube)
     {
+        float scaleMultiplier = cube.transform.lossyScale.x;
+
         if (Random.Range(_minChanceDivision, _maxChanceDivision) <= cube.SplitChance)
         {
             List<Rigidbody> spawnedCubes = _spawner.CreateNewCubes(cube, cube.SplitChance / _reducingChanceDivision);
             _explosionHandler.Explode(cube.transform.position, spawnedCubes);
         }
+        else
+        {
+            _explosionHandler.ExplodeSingleCube(
+                cube.transform.position,
+                scaleMultiplier
+            );
+        }
+
         Destroy(cube.gameObject);
     }
 }
